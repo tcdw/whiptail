@@ -42,9 +42,11 @@ class whiptail {
 
   }
 
-  async inputbox(title, init) {
+  async inputbox(title, init, {
+    width = 0, height = 0,
+  } = {}) {
     var args = ['--inputbox', title];
-    args.push(0,0, init || '');
+    args.push(height, width, init || '');
 
     try {
       return await this._run(args);
@@ -53,9 +55,24 @@ class whiptail {
     }
   }
 
-  async msgbox(text) {
+  async pssswordbox(title, init, {
+    width = 0, height = 0,
+  } = {}) {
+    var args = ['--passwordbox', title];
+    args.push(height, width, init || '');
+
+    try {
+      return await this._run(args);
+    } catch(err) {
+      return null;
+    }
+  }
+
+  async msgbox(text, {
+    width = 0, height = 0,
+  } = {}) {
     var args = ['--msgbox', text];
-    args.push(0,0);
+    args.push(height, width);
 
     try {
       return await this._run(args);
@@ -64,12 +81,14 @@ class whiptail {
     }
   }
 
-  async  menu(title, choices, def) {
+  async  menu(title, choices, def, {
+    width = 0, height = 0, menuHeight = 0,
+  }) {
     var args = ['--menu', title];
     if(def !== undefined)
       args.push("--default-item", def);
 
-    args.push(0,0,0);
+    args.push(height, width, menuHeight);
     for(var k in choices)
       args.push(k, choices[k]);
 
@@ -80,9 +99,11 @@ class whiptail {
     }
   }
 
-  async  radiolist(title, choices) {
+  async  radiolist(title, choices, {
+    width = 0, height = 0, menuHeight = 0,
+  }) {
     var args = ['--radiolist', title];
-    args.push(0,0,0);
+    args.push(height, width, menuHeight);
     for(var k in choices)
       args.push(k, choices[k].value || choices[k], !!choices[k].active | 0);
 
@@ -93,9 +114,11 @@ class whiptail {
     }
   }
 
-  async  yesno(title) {
+  async  yesno(title, {
+    width = 0, height = 0,
+  } = {}) {
     var args = ['--yesno', title];
-    args.push(0,0);
+    args.push(height, width);
 
     try {
       return await this._run(args);
@@ -106,9 +129,11 @@ class whiptail {
 
 
 
-  async  checklist(title, choices) {
+  async  checklist(title, choices, {
+    width = 0, height = 0, menuHeight = 0,
+  }) {
     var args = ['--checklist', title];
-    args.push(0,0,0);
+    args.push(height, width, menuHeight);
     for(var k in choices)
       args.push(k, choices[k].value || choices[k], !!choices[k].active | 0);
 
