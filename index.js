@@ -13,6 +13,11 @@ class whiptail {
 
 
   constructor(options) {
+    if (options && options.program) {
+      this._program = options.program || 'whiptail';
+      delete options.program;
+    }
+
     this.options = formatArgs(options, true);
 
     //notags is not working as it should
@@ -40,8 +45,6 @@ class whiptail {
       };
     }
 
-    this._program = options.program || 'whiptail';
-
   }
 
   async inputbox(title, init, {
@@ -57,7 +60,7 @@ class whiptail {
     }
   }
 
-  async pssswordbox(title, init, {
+  async passwordbox(title, init, {
     width = 0, height = 0,
   } = {}) {
     var args = ['--passwordbox', title];
@@ -150,7 +153,7 @@ class whiptail {
   _run(cmd) {
     var next = defer();
     var args = [].concat(this.options).concat(cmd);
-
+console.log(args);
     var child = cp.spawn(this._program, args, {
       stdio : ['inherit', 'inherit', 'pipe'],
     });
