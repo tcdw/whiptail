@@ -126,9 +126,10 @@ class whiptail {
     args.push(height, width);
 
     try {
-      return await this._run(args);
+      await this._run(args);
+      return true;
     } catch(err) {
-      return null;
+      return false;
     }
   }
 
@@ -153,7 +154,7 @@ class whiptail {
   _run(cmd) {
     var next = defer();
     var args = [].concat(this.options).concat(cmd);
-console.log(args);
+
     var child = cp.spawn(this._program, args, {
       stdio : ['inherit', 'inherit', 'pipe'],
     });
