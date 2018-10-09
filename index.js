@@ -40,6 +40,8 @@ class whiptail {
       };
     }
 
+    this._program = options.program || 'whiptail';
+
   }
 
   async inputbox(title, init, {
@@ -83,7 +85,7 @@ class whiptail {
 
   async  menu(title, choices, def, {
     width = 0, height = 0, menuHeight = 0,
-  }) {
+  } = {}) {
     var args = ['--menu', title];
     if(def !== undefined)
       args.push("--default-item", def);
@@ -101,7 +103,7 @@ class whiptail {
 
   async  radiolist(title, choices, {
     width = 0, height = 0, menuHeight = 0,
-  }) {
+  } = {}) {
     var args = ['--radiolist', title];
     args.push(height, width, menuHeight);
     for(var k in choices)
@@ -131,7 +133,7 @@ class whiptail {
 
   async  checklist(title, choices, {
     width = 0, height = 0, menuHeight = 0,
-  }) {
+  } = {}) {
     var args = ['--checklist', title];
     args.push(height, width, menuHeight);
     for(var k in choices)
@@ -149,7 +151,7 @@ class whiptail {
     var next = defer();
     var args = [].concat(this.options).concat(cmd);
 
-    var child = cp.spawn('whiptail', args, {
+    var child = cp.spawn(this._program, args, {
       stdio : ['inherit', 'inherit', 'pipe'],
     });
 
